@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Slew Rate</string>
+
+    <string-array name="frequency_array">
+        <item>KHz</item>
+        <item>Hz</item>
+    </string-array>
+</resources>
