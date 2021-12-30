@@ -32,13 +32,27 @@
             android:layout_weight="0"/>
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/etVoltage"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Peak voltage"
-        android:inputType="numberDecimal"
-        android:textSize="20sp"/>
+        android:layout_height="50dp"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/etVoltage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Peak voltage"
+            android:inputType="numberDecimal"
+            android:textSize="20sp"/>
+
+        <Spinner
+            android:id="@+id/voltageSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/btnCalculate"
         android:layout_width="match_parent"

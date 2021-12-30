@@ -3,6 +3,9 @@ package com.example.slewrate
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import java.lang.Math.*
@@ -10,6 +13,8 @@ import java.lang.Math.*
 class MainActivity : AppCompatActivity() {
     private val frequencyList = listOf("KHz","Hz")
     private var frequencySelected: String = ""
+    private val voltageList = listOf("V", "mV")
+    private var voltageSelected: String = ""
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,10 +26,14 @@ class MainActivity : AppCompatActivity() {
         val btnClean = findViewById<Button>(R.id.btnClean)
         val textResult = findViewById<TextView>(R.id.textResult)
         val frequencySpinner = findViewById<Spinner>(R.id.frequencySpinner)
+        val voltageSpinner = findViewById<Spinner>(R.id.voltageSpinner)
 
         // Create an ArrayAdapter using the string array and a custom spinner layout
         val adapter = ArrayAdapter(this, R.layout.frequency_spinner, frequencyList)
         frequencySpinner.adapter = adapter
+
+        val adapter2 = ArrayAdapter(this, R.layout.frequency_spinner, voltageList)
+        voltageSpinner.adapter = adapter2
 
         frequencySpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -37,6 +46,17 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        voltageSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                voltageSelected = voltageSpinner.selectedItem.toString()
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
 
@@ -65,11 +85,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnClean.setOnClickListener {
-            etFrequency.setText("")
-            etVoltage.setText("")
-            textResult.text = "Result"
+            if (etFrequency.text.isEmpty() && etVoltage.text.isEmpty()) {
+                Toast.makeText(this,"Nothing to clear",Toast.LENGTH_SHORT).show()
+            } else {
+                etFrequency.setText("")
+                etVoltage.setText("")
+                textResult.text = "Result"
+            }
         }
-
     }
 
     private fun customRound(number: Double, decimals: Int): Double {
@@ -85,5 +108,25 @@ class MainActivity : AppCompatActivity() {
          * slew rate (V/us)
         */
         return customRound(2 * PI * frequency * peakVoltage * 0.000001, 4)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.overflow_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.settingsItem -> {
+
+                true
+            }
+            R.id.aboutItem -> {
+                Toast.makeText(this,"About not avaible",Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
